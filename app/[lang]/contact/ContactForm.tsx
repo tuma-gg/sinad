@@ -6,7 +6,7 @@ import { FiMail, FiPhone, FiMapPin, FiClock } from 'react-icons/fi';
 import Link from 'next/link';
 
 const PHONE = '+968 7922 9423';
-const PHONE_AR = '٩٦٨ ٧٩٢٢ ٩٤٢٣';
+
 
 export default function ContactForm({ lang }: { lang: Language }) {
   const t = translations[lang];
