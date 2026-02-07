@@ -16,8 +16,8 @@ export default function LanguageSelection() {
   };
 
   return (
-    <div className="min-h-screen h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary-bg via-primary-cream to-accent-tan texture-overlay overflow-hidden px-4">
-      <div className="w-full max-w-2xl mx-auto text-center">
+    <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gradient-to-br from-primary-bg via-primary-cream to-accent-tan texture-overlay overflow-hidden">
+      <div className="w-full max-w-2xl mx-auto text-center px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
