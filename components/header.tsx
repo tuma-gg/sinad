@@ -4,7 +4,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Language, translations } from '@/Lib/translations';
-import { FiMenu, FiX, FiShoppingCart, FiGlobe } from 'react-icons/fi';
+import { FiMenu, FiX, FiShoppingCart, FiGlobe, FiUser, FiLogOut, FiSettings } from 'react-icons/fi';
+import { useUser } from '@/app/contexts/UserContext';
+import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   lang: Language;
@@ -12,8 +14,11 @@ interface HeaderProps {
 
 export default function Header({ lang }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const { user, logout } = useUser();
   const t = translations[lang];
   const isRTL = lang === 'ar';
+  const pathname = usePathname();
 
   const navigation = [
     { name: t.about, href: `/${lang}#about` },
@@ -27,6 +32,11 @@ export default function Header({ lang }: HeaderProps) {
     const newLang = lang === 'ar' ? 'en' : 'ar';
     document.cookie = `NEXT_LOCALE=${newLang}; path=/; max-age=31536000`;
     window.location.href = `/${newLang}`;
+  };
+
+  const handleLogout = () => {
+    logout();
+    setUserMenuOpen(false);
   };
 
   return (
@@ -81,13 +91,57 @@ export default function Header({ lang }: HeaderProps) {
               </span>
             </Link>
 
-            {/* Login - Hidden on mobile */}
-            <Link
-              href={`/${lang}/login`}
-              className="hidden lg:block px-4 py-2 border-2 border-gold text-gold rounded-lg hover:bg-gold hover:text-brown-dark transition-all font-medium text-sm"
-            >
-              {t.login}
-            </Link>
+            {/* User Menu or Login - Desktop */}
+            {user ? (
+              <div className="hidden lg:block relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 px-4 py-2 border-2 border-gold text-gold rounded-lg hover:bg-gold hover:text-brown-dark transition-all font-medium text-sm"
+                >
+                  <FiUser />
+                  <span>{user.name}</span>
+                </button>
+
+                {/* Dropdown Menu */}
+                {userMenuOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setUserMenuOpen(false)}
+                    />
+                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50">
+                      <div className="px-4 py-3 border-b border-gray-200">
+                        <p className="text-sm font-semibold text-brown-dark">{user.name}</p>
+                        <p className="text-xs text-gray-600">{user.email}</p>
+                        {user.phone && <p className="text-xs text-gray-600">{user.phone}</p>}
+                      </div>
+                      <Link
+                        href={`/${lang}/profile`}
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-brown-dark hover:bg-gray-100 transition-colors"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        <FiSettings />
+                        {isRTL ? 'إعدادات الحساب' : 'Account Settings'}
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors"
+                      >
+                        <FiLogOut />
+                        {isRTL ? 'تسجيل الخروج' : 'Logout'}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <Link
+                href={`/${lang}/login?returnTo=${encodeURIComponent(pathname)}`}
+                className="hidden lg:block px-4 py-2 border-2 border-gold text-gold rounded-lg hover:bg-gold hover:text-brown-dark transition-all font-medium text-sm"
+              >
+                {t.login}
+              </Link>
+            )}
 
             {/* Mobile Menu Button - Better touch target */}
             <button
@@ -120,13 +174,41 @@ export default function Header({ lang }: HeaderProps) {
               <FiGlobe />
               <span>{lang === 'ar' ? 'English' : 'العربية'}</span>
             </button>
-            <Link
-              href={`/${lang}/login`}
-              className="block py-3 px-2 text-gold font-medium hover:bg-brown-primary/30 rounded transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {t.login}
-            </Link>
+
+            {user ? (
+              <>
+                <div className="px-2 py-3 border-t border-brown-primary mt-2">
+                  <p className="text-sm font-semibold text-gold">{user.name}</p>
+                  <p className="text-xs text-primary-cream/70">{user.email}</p>
+                </div>
+                <Link
+                  href={`/${lang}/profile`}
+                  className="flex items-center gap-2 py-3 px-2 text-gold hover:bg-brown-primary/30 rounded transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <FiSettings />
+                  {isRTL ? 'إعدادات الحساب' : 'Account Settings'}
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 py-3 px-2 text-red-400 w-full hover:bg-brown-primary/30 rounded transition-colors"
+                >
+                  <FiLogOut />
+                  {isRTL ? 'تسجيل الخروج' : 'Logout'}
+                </button>
+              </>
+            ) : (
+              <Link
+                href={`/${lang}/login?returnTo=${encodeURIComponent(pathname)}`}
+                className="block py-3 px-2 text-gold font-medium hover:bg-brown-primary/30 rounded transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t.login}
+              </Link>
+            )}
           </div>
         )}
       </nav>
