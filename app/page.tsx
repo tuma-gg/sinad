@@ -40,7 +40,7 @@ export default function LanguageSelection() {
           اختر اللغة / Choose Language
         </motion.h2>
 
-        <div className="flex flex-row gap-3 sm:gap-6 justify-center items-center max-w-md mx-auto">
+        <div className="flex flex-row gap-4 justify-center items-center">
           <motion.button
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
@@ -50,12 +50,13 @@ export default function LanguageSelection() {
             onClick={() => handleLanguageSelect('ar')}
             className={`
               group relative overflow-hidden
-              w-36 h-24 sm:w-48 sm:h-28 lg:w-56 lg:h-32 rounded-2xl
+              w-40 h-28 rounded-2xl
               bg-brown-primary text-primary-cream
-              font-arabic text-lg sm:text-xl lg:text-2xl font-bold
+              font-arabic text-xl font-bold
               transition-all duration-300
               hover:shadow-2xl
               touch-manipulation
+              flex-shrink-0
               ${selectedLang === 'ar' ? 'ring-4 ring-gold' : ''}
             `}
           >
@@ -72,12 +73,13 @@ export default function LanguageSelection() {
             onClick={() => handleLanguageSelect('en')}
             className={`
               group relative overflow-hidden
-              w-36 h-24 sm:w-48 sm:h-28 lg:w-56 lg:h-32 rounded-2xl
+              w-40 h-28 rounded-2xl
               bg-brown-primary text-primary-cream
-              font-english text-lg sm:text-xl lg:text-2xl font-bold
+              font-english text-xl font-bold
               transition-all duration-300
               hover:shadow-2xl
               touch-manipulation
+              flex-shrink-0
               ${selectedLang === 'en' ? 'ring-4 ring-gold' : ''}
             `}
           >
