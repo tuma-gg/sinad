@@ -40,7 +40,7 @@ export default function LanguageSelection() {
           اختر اللغة / Choose Language
         </motion.h2>
 
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center max-w-md sm:max-w-none mx-auto">
+        <div className="flex flex-row gap-3 sm:gap-6 justify-center items-center max-w-md mx-auto">
           <motion.button
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
@@ -50,9 +50,9 @@ export default function LanguageSelection() {
             onClick={() => handleLanguageSelect('ar')}
             className={`
               group relative overflow-hidden
-              w-full sm:w-64 h-28 sm:h-32 rounded-2xl
+              w-36 h-24 sm:w-48 sm:h-28 lg:w-56 lg:h-32 rounded-2xl
               bg-brown-primary text-primary-cream
-              font-arabic text-xl sm:text-2xl font-bold
+              font-arabic text-lg sm:text-xl lg:text-2xl font-bold
               transition-all duration-300
               hover:shadow-2xl
               touch-manipulation
@@ -72,9 +72,9 @@ export default function LanguageSelection() {
             onClick={() => handleLanguageSelect('en')}
             className={`
               group relative overflow-hidden
-              w-full sm:w-64 h-28 sm:h-32 rounded-2xl
+              w-36 h-24 sm:w-48 sm:h-28 lg:w-56 lg:h-32 rounded-2xl
               bg-brown-primary text-primary-cream
-              font-english text-xl sm:text-2xl font-bold
+              font-english text-lg sm:text-xl lg:text-2xl font-bold
               transition-all duration-300
               hover:shadow-2xl
               touch-manipulation
