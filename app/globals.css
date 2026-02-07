@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --page-bg: #fcf1e9;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html[dir="rtl"] {
+    direction: rtl;
+    font-family: 'Cairo', sans-serif;
+  }
+
+  html[dir="ltr"] {
+    direction: ltr;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Global texture background – same texture everywhere; color controlled by --page-bg per page */
+  body {
+    position: relative;
+    min-height: 100vh;
+    background-image: url('/texture-bg.png');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: auto;
+    color: #030100;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-color: var(--page-bg);
+    opacity: 0.92;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+@layer components {
+  /* Logo without background – blend so dark background disappears */
+  .logo-no-bg {
+    mix-blend-mode: lighten;
+  }
+
+  /* Texture overlay – same texture on all pages/sections */
+  .texture-overlay {
+    position: relative;
+  }
+
+  .texture-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/texture-bg.png');
+    background-repeat: repeat;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .texture-overlay > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Button styles */
+  .btn-primary {
+    @apply bg-brown-primary text-primary-cream px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gold hover:scale-105 hover:shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply border-2 border-gold text-brown-primary px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gold hover:text-white;
+  }
+
+  .card {
+    @apply bg-primary-bg border-2 border-accent-tan rounded-lg p-6 transition-all duration-300 hover:shadow-xl hover:border-gold hover:-translate-y-2;
+  }
+
+  /* RTL support */
+  [dir="rtl"] .flip-rtl {
+    transform: scaleX(-1);
+  }
+
+  /* Animations */
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer utilities {
+  /* Mobile: safe area padding for notched devices */
+  .safe-area-padding {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  /* Better touch targets on mobile – disable double-tap zoom on buttons */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #fcf1e9;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #593405;
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ddc769;
+  }
+}
