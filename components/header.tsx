@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Language, translations } from '@/Lib/translations';
 import { FiMenu, FiX, FiShoppingCart, FiGlobe, FiUser, FiLogOut, FiSettings } from 'react-icons/fi';
 import { useUser } from '@/app/contexts/UserContext';
@@ -19,6 +19,7 @@ export default function Header({ lang }: HeaderProps) {
   const t = translations[lang];
   const isRTL = lang === 'ar';
   const pathname = usePathname();
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   const navigation = [
     { name: t.about, href: `/${lang}#about` },
@@ -38,6 +39,31 @@ export default function Header({ lang }: HeaderProps) {
     logout();
     setUserMenuOpen(false);
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    }
+
+    // Close on escape key
+    function handleEscapeKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setUserMenuOpen(false);
+      }
+    }
+
+    if (userMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscapeKey);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('keydown', handleEscapeKey);
+      };
+    }
+  }, [userMenuOpen]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-brown-dark text-primary-cream shadow-lg">
@@ -93,45 +119,60 @@ export default function Header({ lang }: HeaderProps) {
 
             {/* User Menu or Login - Desktop */}
             {user ? (
-              <div className="hidden lg:block relative">
+              <div className="hidden lg:block relative" ref={userMenuRef}>
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center gap-2 px-4 py-2 border-2 border-gold text-gold rounded-lg hover:bg-gold hover:text-brown-dark transition-all font-medium text-sm"
+                  aria-expanded={userMenuOpen}
+                  aria-haspopup="true"
                 >
                   <FiUser />
                   <span>{user.name}</span>
+                  <svg 
+                    className={`w-4 h-4 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
                 </button>
 
                 {/* Dropdown Menu */}
                 {userMenuOpen && (
-                  <>
-                    <div 
-                      className="fixed inset-0 z-40" 
-                      onClick={() => setUserMenuOpen(false)}
-                    />
-                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50">
-                      <div className="px-4 py-3 border-b border-gray-200">
-                        <p className="text-sm font-semibold text-brown-dark">{user.name}</p>
-                        <p className="text-xs text-gray-600">{user.email}</p>
-                        {user.phone && <p className="text-xs text-gray-600">{user.phone}</p>}
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl py-2 z-50 animate-fadeIn">
+                    <div className="px-4 py-3 border-b border-gray-200">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-brown-dark font-bold">
+                          {user.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-brown-dark">{user.name}</p>
+                          <p className="text-xs text-gray-600">{user.email}</p>
+                        </div>
                       </div>
-                      <Link
-                        href={`/${lang}/profile`}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-brown-dark hover:bg-gray-100 transition-colors"
-                        onClick={() => setUserMenuOpen(false)}
-                      >
-                        <FiSettings />
-                        {isRTL ? 'إعدادات الحساب' : 'Account Settings'}
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors"
-                      >
-                        <FiLogOut />
-                        {isRTL ? 'تسجيل الخروج' : 'Logout'}
-                      </button>
+                      {user.phone && (
+                        <p className="text-xs text-gray-600 mt-2 flex items-center gap-1">
+                          <span>📱</span> {user.phone}
+                        </p>
+                      )}
                     </div>
-                  </>
+                    <Link
+                      href={`/${lang}/profile`}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-brown-dark hover:bg-gray-100 transition-colors"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      <FiSettings />
+                      {isRTL ? 'إعدادات الحساب' : 'Account Settings'}
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors border-t border-gray-200 mt-1"
+                    >
+                      <FiLogOut />
+                      {isRTL ? 'تسجيل الخروج' : 'Logout'}
+                    </button>
+                  </div>
                 )}
               </div>
             ) : (
@@ -178,8 +219,18 @@ export default function Header({ lang }: HeaderProps) {
             {user ? (
               <>
                 <div className="px-2 py-3 border-t border-brown-primary mt-2">
-                  <p className="text-sm font-semibold text-gold">{user.name}</p>
-                  <p className="text-xs text-primary-cream/70">{user.email}</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-brown-dark font-bold">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gold">{user.name}</p>
+                      <p className="text-xs text-primary-cream/70">{user.email}</p>
+                    </div>
+                  </div>
+                  {user.phone && (
+                    <p className="text-xs text-primary-cream/70 mt-2 ml-13">📱 {user.phone}</p>
+                  )}
                 </div>
                 <Link
                   href={`/${lang}/profile`}
