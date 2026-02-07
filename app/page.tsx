@@ -16,31 +16,31 @@ export default function LanguageSelection() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-bg via-primary-cream to-accent-tan texture-overlay">
-      <div className="text-center px-4">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary-bg via-primary-cream to-accent-tan texture-overlay overflow-x-hidden px-4 py-8">
+      <div className="w-full max-w-2xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
-          <div className="w-64 h-64 mx-auto mb-4 relative logo-no-bg">
+          <div className="w-40 h-40 sm:w-56 sm:h-56 lg:w-64 lg:h-64 mx-auto mb-4 relative logo-no-bg">
             <Image src="/logo.png" alt="سِناد Sinad" fill className="object-contain" priority />
           </div>
-          <h1 className="text-4xl font-bold text-brown-dark mb-2">SINAD</h1>
-          <p className="text-lg text-brown-primary">Sustainable Building Innovations</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-brown-dark mb-2">SINAD</h1>
+          <p className="text-base sm:text-lg text-brown-primary">Sustainable Building Innovations</p>
         </motion.div>
 
         <motion.h2
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-2xl font-semibold text-brown-dark mb-8"
+          className="text-xl sm:text-2xl font-semibold text-brown-dark mb-6 sm:mb-8"
         >
           اختر اللغة / Choose Language
         </motion.h2>
 
-        <div className="flex flex-col sm:flex-row gap-6 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center max-w-md sm:max-w-none mx-auto">
           <motion.button
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
@@ -50,11 +50,12 @@ export default function LanguageSelection() {
             onClick={() => handleLanguageSelect('ar')}
             className={`
               group relative overflow-hidden
-              w-64 h-32 rounded-2xl
+              w-full sm:w-64 h-28 sm:h-32 rounded-2xl
               bg-brown-primary text-primary-cream
-              font-arabic text-2xl font-bold
+              font-arabic text-xl sm:text-2xl font-bold
               transition-all duration-300
               hover:shadow-2xl
+              touch-manipulation
               ${selectedLang === 'ar' ? 'ring-4 ring-gold' : ''}
             `}
           >
@@ -71,11 +72,12 @@ export default function LanguageSelection() {
             onClick={() => handleLanguageSelect('en')}
             className={`
               group relative overflow-hidden
-              w-64 h-32 rounded-2xl
+              w-full sm:w-64 h-28 sm:h-32 rounded-2xl
               bg-brown-primary text-primary-cream
-              font-english text-2xl font-bold
+              font-english text-xl sm:text-2xl font-bold
               transition-all duration-300
               hover:shadow-2xl
+              touch-manipulation
               ${selectedLang === 'en' ? 'ring-4 ring-gold' : ''}
             `}
           >
@@ -88,11 +90,10 @@ export default function LanguageSelection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
-          className="mt-12 text-brown-primary font-light"
+          className="mt-8 sm:mt-12 text-sm sm:text-base text-brown-primary font-light"
         >
-          <span className="font-arabic">من الطبيعة، للبناء المستدام</span>
-          <br />
-          <span className="font-english">From Nature, For Sustainable Building</span>
+          <span className="font-arabic block mb-1">من الطبيعة، للبناء المستدام</span>
+          <span className="font-english block">From Nature, For Sustainable Building</span>
         </motion.p>
       </div>
     </div>
