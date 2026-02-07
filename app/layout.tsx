@@ -3,7 +3,7 @@ import "./globals.css";
 import PageBackground from "@/components/PageBackground";
 
 export const metadata: Metadata = {
-  title: "SINAD - Sustainable Building Solutions | سِناد",
+  title: "Sinad - Sustainable Building Solutions | سِناد",
   description: "شركة عُمانية رائدة في ابتكارات البناء المستدامة | Leading Omani sustainable building innovations",
 };
 

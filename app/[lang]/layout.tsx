@@ -9,19 +9,20 @@ export default async function LangLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ lang: Language }>;
+  params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
+  const language = (lang === 'ar' || lang === 'en' ? lang : 'en') as Language;
 
   return (
     <>
-      <LangDirection lang={lang} />
-      <Header lang={lang} />
+      <LangDirection lang={language} />
+      <Header lang={language} />
       <main className="min-h-screen pt-20 texture-overlay">
         {children}
       </main>
-      <Footer lang={lang} />
-      <ChatBot lang={lang} />
+      <Footer lang={language} />
+      <ChatBot lang={language} />
     </>
   );
 }

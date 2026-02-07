@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --hostname 0.0.0.0",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start --hostname 0.0.0.0",
+    "lint": "eslint",
+    "share": "npx cloudflared@latest tunnel --url http://localhost:3000"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.95.3",
@@ -29,6 +30,7 @@
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.18",
     "babel-plugin-react-compiler": "1.0.0",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "postcss": "^8.4.35",
@@ -36,9 +38,7 @@
     "typescript": "^5"
   },
   "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",
-  "main": "postcss.config.js",
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "license": "ISC"
 }

@@ -39,7 +39,7 @@ export default function Header({ lang }: HeaderProps) {
               <Image src="/logo.png" alt="سِناد Sinad" fill className="object-contain" priority />
             </div>
             <div className={isRTL ? 'text-right' : 'text-left'}>
-              <div className="font-bold text-xl">SINAD</div>
+              <div className="font-bold text-xl">Sinad</div>
               <div className="text-sm text-gold">{isRTL ? 'ابتكارات مستدامة' : 'Sustainable Innovation'}</div>
             </div>
           </Link>

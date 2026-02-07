@@ -14,7 +14,19 @@ pnpm dev
 bun dev
 ```
 
-Open [https://sinad-d5mu.onrender.com](https://sinad-d5mu.onrender.com) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Share with others (different networks)
+
+The dev server is bound to `0.0.0.0`, so:
+
+- **Same Wi‑Fi:** Others can open `http://<your-ip>:3000` (e.g. `http://192.168.1.5:3000`). Find your IP with `ipconfig` (Windows) or `ifconfig` (Mac/Linux).
+
+- **Public link (any network):** In a **second terminal**, run:
+  ```bash
+  npm run share
+  ```
+  You’ll get a public URL like `https://something.trycloudflare.com`. Share that link. Keep both `npm run dev` and `npm run share` running while sharing. (Uses Cloudflare Tunnel; no signup required.)
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
