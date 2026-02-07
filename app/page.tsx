@@ -16,7 +16,7 @@ export default function LanguageSelection() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary-bg via-primary-cream to-accent-tan texture-overlay overflow-x-hidden px-4 py-8">
+    <div className="min-h-screen h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary-bg via-primary-cream to-accent-tan texture-overlay overflow-hidden px-4">
       <div className="w-full max-w-2xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
