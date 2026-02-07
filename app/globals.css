@@ -77,17 +77,17 @@
     z-index: 2;
   }
 
-  /* Button styles */
+  /* Button styles - UPDATED WITH RESPONSIVE SIZING */
   .btn-primary {
-    @apply bg-brown-primary text-primary-cream px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gold hover:scale-105 hover:shadow-lg;
+    @apply bg-brown-primary text-primary-cream px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 hover:bg-gold hover:scale-105 hover:shadow-lg touch-manipulation;
   }
 
   .btn-secondary {
-    @apply border-2 border-gold text-brown-primary px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gold hover:text-white;
+    @apply border-2 border-gold text-brown-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 hover:bg-gold hover:text-white touch-manipulation;
   }
 
   .card {
-    @apply bg-primary-bg border-2 border-accent-tan rounded-lg p-6 transition-all duration-300 hover:shadow-xl hover:border-gold hover:-translate-y-2;
+    @apply bg-primary-bg border-2 border-accent-tan rounded-lg p-4 sm:p-6 transition-all duration-300 hover:shadow-xl hover:border-gold hover:-translate-y-2;
   }
 
   /* RTL support */
