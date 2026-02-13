@@ -3,6 +3,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import ChatBot from '@/components/ChatBot';
 import LangDirection from '@/components/LangDirection';
+import ClientProviders from '@/components/ClientProviders';
 
 export default async function LangLayout({
   children,
@@ -15,7 +16,7 @@ export default async function LangLayout({
   const language = (lang === 'ar' || lang === 'en' ? lang : 'en') as Language;
 
   return (
-    <>
+    <ClientProviders>
       <LangDirection lang={language} />
       <Header lang={language} />
       <main className="min-h-screen pt-20 texture-overlay">
@@ -23,6 +24,6 @@ export default async function LangLayout({
       </main>
       <Footer lang={language} />
       <ChatBot lang={language} />
-    </>
+    </ClientProviders>
   );
 }
