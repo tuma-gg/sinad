@@ -12,7 +12,7 @@ export default function LoginForm({ lang }: { lang: Language }) {
   const isRTL = lang === 'ar';
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login } = useUser();
+  const { login, setReturnPath } = useUser();
 
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,17 +55,20 @@ export default function LoginForm({ lang }: { lang: Language }) {
 
       const data = await response.json();
 
+      // Get the return path from URL params, or default to home page
+      const returnTo = searchParams.get('returnTo') || `/${lang}`;
+      
+      // Set return path before logging in
+      setReturnPath(returnTo);
+      
       // Log the user in using UserContext with real API data
       login({
         name: data.user.name,
         email: data.user.email,
         phone: data.user.phone,
       });
-
-      // Get the return path from URL params, or default to home page
-      const returnTo = searchParams.get('returnTo') || `/${lang}`;
       
-      // Redirect to home page or return path
+      // Redirect to previous page or home page
       router.push(returnTo);
       
     } catch (err) {

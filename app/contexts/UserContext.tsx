@@ -33,6 +33,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const login = (userData: User) => {
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
+    // Clear return path after login
+    setReturnPath('/');
   };
 
   const logout = () => {
