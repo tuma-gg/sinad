@@ -31,6 +31,13 @@ export default async function PartnersPage({ params }: { params: Promise<{ lang:
         { nameAr: 'جمعية البيئة العُمانية', nameEn: 'Environment Society of Oman', type: 'Environmental Partner' },
         { nameAr: 'مركز الاقتصاد الدائري', nameEn: 'Circular Economy Center', type: 'Research Partner' },
         { nameAr: 'شبكة المباني الخضراء', nameEn: 'Green Building Network', type: 'Certification Body' },
+        { 
+          nameAr: 'الجامعة الألمانية للتكنولوجيا في عمان', 
+          nameEn: 'German University of Technology in Oman (GUtech)', 
+          type: 'Academic & Research Partner',
+          website: 'https://www.gutech.edu.om/',
+          location: { lat: 23.563908, lng: 58.207371 }
+        },
       ],
     },
   ];
@@ -65,7 +72,9 @@ export default async function PartnersPage({ params }: { params: Promise<{ lang:
                 <div key={index} className="bg-white rounded-xl p-6 border-2 border-accent-tan hover:border-gold hover:shadow-xl transition-all group">
                   {/* Logo Placeholder */}
                   <div className="w-full h-32 bg-primary-bg rounded-lg flex items-center justify-center mb-4 group-hover:bg-gold transition-colors">
-                    <span className="text-4xl text-brown-primary">🏢</span>
+                    <span className="text-4xl text-brown-primary">
+                      {partner.website ? '🎓' : '🏢'}
+                    </span>
                   </div>
 
                   {/* Partner Info */}
@@ -73,12 +82,24 @@ export default async function PartnersPage({ params }: { params: Promise<{ lang:
                     {isRTL ? partner.nameAr : partner.nameEn}
                   </h3>
                   <p className="text-sm text-gold font-medium mb-3">{partner.type}</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 mb-4">
                     {isRTL 
                       ? 'شريك استراتيجي في تطوير حلول البناء المستدام'
                       : 'Strategic partner in developing sustainable building solutions'
                     }
                   </p>
+
+                  {/* Website Link - Only for partners with website */}
+                  {partner.website && (
+                    <a
+                      href={partner.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block text-sm text-brown-primary hover:text-gold transition-colors font-medium"
+                    >
+                      {isRTL ? 'زيارة الموقع ←' : 'Visit Website →'}
+                    </a>
+                  )}
                 </div>
               ))}
             </div>
